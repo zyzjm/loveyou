@@ -199,14 +199,14 @@ function initTimelineMode() {
             title: '第一次约会',
             description: '我们一起吃了火锅、看了电影。那晚听你说了一路，天气虽然很冷，但和你在一起就没那么冷了。',
             emoji: '🍡&🎬',
-            side: 'right'
+            side: 'left'
         },
         {
             date: '2025年1月17日',
             title: '第一次拥抱',
             description: '那是一次你考试过后，我们吃了火锅鸡，走在路上，我第一次抱你，那时候我的心跳的很快。',
             emoji: '💗',
-            side: 'left'
+            side: 'right'
         },
         {
             date: '2025年1月20日',
