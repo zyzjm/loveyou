@@ -166,20 +166,41 @@ Boom.prototype = {
         var fragNum = getRandom(30, 200);
         var style = getRandom(0, 10) >= 5 ? 1 : 2;
         var color;
-        if (style === 1) {
-            color = {
-                a: parseInt(getRandom(128, 255)),
-                b: parseInt(getRandom(128, 255)),
-                c: parseInt(getRandom(128, 255))
+
+        // 使用主题颜色
+        var themeColors = window.currentTheme && window.currentTheme.fireworkColors;
+
+        if (themeColors && themeColors !== 'random' && Array.isArray(themeColors)) {
+            // 使用主题指定的颜色
+            var themeColor = themeColors[Math.floor(Math.random() * themeColors.length)];
+            var rgb = hexToRgb(themeColor);
+            if (style === 1) {
+                color = { a: rgb.r, b: rgb.g, c: rgb.b };
             }
-        }
-        var fanwei = parseInt(getRandom(300, 400));
-        for (var i = 0; i < fragNum; i++) {
-            if (style === 2) {
+        } else {
+            // 使用随机颜色
+            if (style === 1) {
                 color = {
                     a: parseInt(getRandom(128, 255)),
                     b: parseInt(getRandom(128, 255)),
                     c: parseInt(getRandom(128, 255))
+                }
+            }
+        }
+
+        var fanwei = parseInt(getRandom(300, 400));
+        for (var i = 0; i < fragNum; i++) {
+            if (style === 2) {
+                if (themeColors && themeColors !== 'random' && Array.isArray(themeColors)) {
+                    var themeColor = themeColors[Math.floor(Math.random() * themeColors.length)];
+                    var rgb = hexToRgb(themeColor);
+                    color = { a: rgb.r, b: rgb.g, c: rgb.b };
+                } else {
+                    color = {
+                        a: parseInt(getRandom(128, 255)),
+                        b: parseInt(getRandom(128, 255)),
+                        c: parseInt(getRandom(128, 255))
+                    }
                 }
             }
             var a = getRandom( - Math.PI, Math.PI);
@@ -291,7 +312,20 @@ Star.prototype = {
         ctx.save();
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
-        ctx.fillStyle = "rgba(255,255,255," + this.r + ")";
+
+        // 使用主题星星颜色
+        var starColor = "rgba(255,255,255," + this.r + ")";
+        if (window.currentTheme && window.currentTheme.starColor) {
+            var baseColor = window.currentTheme.starColor;
+            // 提取基础颜色的 alpha 值并与星星半径结合
+            var match = baseColor.match(/rgba?\((\d+),(\d+),(\d+),?([\d.]+)?\)/);
+            if (match) {
+                var r = match[1], g = match[2], b = match[3];
+                starColor = "rgba(" + r + "," + g + "," + b + "," + this.r + ")";
+            }
+        }
+
+        ctx.fillStyle = starColor;
         ctx.fill();
         ctx.restore()
     }
@@ -329,3 +363,13 @@ Frag.prototype = {
         this.paint()
     }
 };
+
+// 辅助函数：将十六进制颜色转换为RGB
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : { r: 255, g: 255, b: 255 };
+}

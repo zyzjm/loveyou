@@ -1,4 +1,5 @@
-$(function() {
+// 经典对话式表白模式
+function initClassicMode() {
     $('#yes').click(function(event) {
         modal('我就知道小宝宝一定会愿意~(^_^)', function() {
             $('.page_one').addClass('hide');
@@ -11,7 +12,7 @@ $(function() {
     $('#no').click(function(event) {
         modal('明人不说暗话！', A);
     });
-});
+}
 
 function A() {
     modal('我爱你！', B);
@@ -45,18 +46,18 @@ function H() {
     modal('我会做饭', I);
 }
  function I() {
-    modal('我会买很多东西给你', J)
+    modal('我会买很多东西给你', J1)
 }
-function I() {
-    modal('会好好疼你', J)
+function J1() {
+    modal('会好好疼你', J2)
 }
-function I() {
-    modal('会哄你睡觉', J)
+function J2() {
+    modal('会哄你睡觉', J3)
 }
-function I() {
-    modal('会唱歌给你听', J)
+function J3() {
+    modal('会唱歌给你听', J4)
 }
-function I() {
+function J4() {
     modal('爱你。么么哒！', J)
 }
 
